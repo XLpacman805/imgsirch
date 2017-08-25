@@ -23,8 +23,9 @@ function getImages(query, offset, url, useJSONP, res, callback){
     if (error) throw error; 
     var dataArray = (JSON.parse(body)).data;
     var result=[];
+    offset = parseInt(offset);
 
-    for(var i=0; i<offset; i++){
+    for(var i= 0 + offset; i < offset + 10; i++){
         if(dataArray[i].hasOwnProperty("is_album") && dataArray[i].is_album){//gets first image from an album
             let albumImage = Array.from(dataArray[i].images);
             result.push(imageObjectBuilder(albumImage));
@@ -52,7 +53,7 @@ app.get("/", function (request, response) {
 
 app.get("/search/", (req, res)=>{
   var query = req.query.q; 
-  var offset = req.query.offset; //number of items to retieve
+  var offset = Boolean(req.query.offset)? req.query.offset:0 ; //number of items to retieve
   var url  = apiUrl+"&q="+query;
   var useJSONP = Boolean(req.query.callback);
   getImages(query,offset,url, useJSONP, res);
