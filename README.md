@@ -38,4 +38,4 @@ To get a JSONP response just add `&callback=?` to the url.
 - [x] Add search capability
 - [x] Add pagination capability
 - [x] Add recent search lookup
-- [ ] Add JSON error response. 
+- [x] Add JSON error response. 

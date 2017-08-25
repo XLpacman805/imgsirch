@@ -23,10 +23,21 @@ function getImages(query, offset, url, useJSONP, res, callback){
   request(url , (error, response, body)=>{
     if (error) throw error; 
     var dataArray = (JSON.parse(body)).data;
+    
+    if(!Boolean(dataArray[0])){ //if response is empty
+      var errorString = "error, your query probably doesn't match anything";
+      var errorResponse = [{error: errorString, image:errorString, description: errorString, page:errorString }];
+      (useJSONP) ? res.jsonp(errorResponse).end() : res.json(errorResponse).end();
+      return 0; //arbitrary number
+    }
+    
     var result=[];
     offset = parseInt(offset);
 
     for(var i= 0 + offset; i < offset + 10; i++){
+        if(dataArray[i] === undefined)
+          break;
+        
         if(dataArray[i].hasOwnProperty("is_album") && dataArray[i].is_album){//gets first image from an album
             let albumImage = Array.from(dataArray[i].images);
             result.push(imageObjectBuilder(albumImage));

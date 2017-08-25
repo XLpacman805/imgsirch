@@ -3,7 +3,7 @@
   "//2": "https://docs.npmjs.com/files/package.json",
   "//3": "updating this file will download and update your packages",
   "name": "imgsirch",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Image Search Abstraction Layer",
   "main": "server.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "node": "8.x"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/welcome-project"
+    "url": "https://github.com/XLpacman805/imgsirch"
   },
   "license": "MIT",
   "keywords": [
