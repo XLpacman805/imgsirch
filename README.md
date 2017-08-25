@@ -44,3 +44,5 @@ Want to see what others have been searching? Just use `https://imgsirch.glitch.m
 - [x] Add recent search lookup
 - [x] Add JSON error response. 
 - [x] Update Documentation
+
+Made using NodeJS, ExpressJS, MongoDB, Request, and the Imgur API. 
