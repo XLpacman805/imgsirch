@@ -3,7 +3,8 @@ const express = require('express');
 const app = express();
 const request = require("request");
 const apiUrl = "https://api.imgur.com/3/gallery/search/?client_id="+ process.env.client_id+"&sort=top";
-
+const mongoUrl = "mongodb://"+process.env.dbuser+":"+process.env.dbpassword+"@"+process.env.hostportdbname
+const mongo = require("mongodb").MongoClient;
 
 function imageObjectBuilder(albumImage, singleImage, callback){
   return Boolean(albumImage) ?{
@@ -32,16 +33,26 @@ function getImages(query, offset, url, useJSONP, res, callback){
           }else{//can access the link property directly since this element is not an album.
             result.push(imageObjectBuilder("", dataArray[i]));
           }
-    }
-    
+    }  
     if(useJSONP)
       res.jsonp(result).end();
     else
       res.json(result).end();
-    
+  });
+}
+
+function recordSearch(query, callback){//send search query and timestamp to db. 
+  mongo.connect(mongoUrl, (err, db) =>{
+    if(err) throw err; 
+    console.log("db connection successful");
+    var queries = db.collection("queries");
+    var queryObject = {query:query, date: new Date().toUTCString()};
+    queries.insert(queryObject)
+    db.close();
   });
   
-}
+}//end recordSearch
+
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -56,7 +67,21 @@ app.get("/search/", (req, res)=>{
   var offset = Boolean(req.query.offset)? req.query.offset:0 ; //number of items to retieve
   var url  = apiUrl+"&q="+query;
   var useJSONP = Boolean(req.query.callback);
+  recordSearch(query);
   getImages(query,offset,url, useJSONP, res);
+});
+
+app.get("/recent/", (req, res)=>{
+  var useJSONP = Boolean(req.query.callback);
+  mongo.connect(mongoUrl, (err, db) =>{
+    if (err) throw err; 
+    var queries=db.collection("queries");
+    queries.find({}, {_id:0}).sort({_id:-1}).limit(10).toArray((err, docs) =>{
+      if (err) throw err; 
+      
+      (useJSONP) ? res.jsonp(docs).end() : res.json(docs).end;
+    });
+  });
 });
 
 // listen for requests :)
