@@ -3,7 +3,7 @@
   "//2": "https://docs.npmjs.com/files/package.json",
   "//3": "updating this file will download and update your packages",
   "name": "imgsirch",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Image Search Abstraction Layer",
   "main": "server.js",
   "scripts": {

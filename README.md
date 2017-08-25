@@ -33,3 +33,8 @@ Response:
 ```
 
 To get a JSONP response just add `&callback=?` to the url.
+
+### To do
+- [x] Add search capability
+- [x] Add pagination capability
+- [ ] Add recent search lookup
