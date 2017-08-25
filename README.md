@@ -34,8 +34,13 @@ Response:
 
 To get a JSONP response just add `&callback=?` to the url.
 
+## Recent Search Queries
+
+Want to see what others have been searching? Just use `https://imgsirch.glitch.me/recent/` . This offers the latest 10 queries to the API. No pagination.  
+
 ### To do
 - [x] Add search capability
 - [x] Add pagination capability
 - [x] Add recent search lookup
 - [x] Add JSON error response. 
+- [x] Update Documentation
